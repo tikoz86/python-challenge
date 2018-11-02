@@ -1,8 +1,10 @@
 import os
 import csv
 
+#sets path
 csvpath = os.path.join("..", "PyBoss", 'employee_data.csv')
 
+#creates a dictionary of states abbreviations
 us_state_abbrev = {
     'Alabama': 'AL',
     'Alaska': 'AK',
@@ -56,6 +58,7 @@ us_state_abbrev = {
     'Wyoming': 'WY',
 }
 
+#declaring variables 
 emp_id = []
 first_name = []
 last_name = []
@@ -63,12 +66,15 @@ dob = []
 ssn = []
 state = []
 
+#opens and reads the file
 with open(csvpath, 'r', newline = '', encoding = 'utf-8') as csvfile:
     
     csvreader = csv.reader(csvfile, delimiter= ",")
-    
+
+#skips the first rows    
     header = next(csvreader)
-    
+
+#loops through file and appends the appropriate lists   
     for i in csvreader:
         emp_id.append(i[0])
         name = i[1].split(" ")
@@ -80,9 +86,11 @@ with open(csvpath, 'r', newline = '', encoding = 'utf-8') as csvfile:
         ssn.append("***-**-" + ssn_convert[2])
         state.append(us_state_abbrev[i[4]])
 
+#zips data
     new_list = zip(emp_id, first_name, last_name, dob, ssn, state)
 
 """
+#checking
     print(emp_id)
     print(first_name)
     print(last_name)    
@@ -91,11 +99,15 @@ with open(csvpath, 'r', newline = '', encoding = 'utf-8') as csvfile:
     print(state)
 """
 
+#sets the output file
 output_file = os.path.join("..", "PyBoss", 'employees_list.csv')
 with open(output_file, 'w') as csvfile:
     write = csv.writer(csvfile, delimiter= ",")
-    write.writerow(["Emp ID", "First Name", "Last Name", "DOB", "SSN", "State"])
     
+#creates the headers    
+    write.writerow(["Emp ID", "First Name", "Last Name", "DOB", "SSN", "State"])
+
+#writing data    
     for j in new_list:
         write.writerow(j)
     
